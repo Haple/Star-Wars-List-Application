@@ -1,7 +1,7 @@
 {
   "name": "crud",
   "version": "1.0.0",
-  "description": "Quotes app",
+  "description": "Star-Wars List Application",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon server.js"
