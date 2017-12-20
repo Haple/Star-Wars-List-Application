@@ -3,16 +3,6 @@ const bodyParser = require('body-parser')
 const app = express()
 const MongoClient = require('mongodb').MongoClient
 
-var db
-
-MongoClient.connect('mongodb://yoda:yodapower@ds161016.mlab.com:61016/star-wars-quotes', (err, database) => {
-  if (err) return console.log(err)
-  db = database
-  app.listen(3000, () => {
-    console.log('listening on 3000')
-  })
-})
-
 app.use(bodyParser.json())
 
 app.use(express.static('public'))
@@ -20,6 +10,18 @@ app.use(express.static('public'))
 app.set('view engine', 'ejs')
 
 app.use(bodyParser.urlencoded({ extended: true }))
+
+app.set('port', (process.env.PORT || 3000));
+
+var db
+
+MongoClient.connect('mongodb://yoda:yodapower@ds161016.mlab.com:61016/star-wars-quotes', (err, database) => {
+  if (err) return console.log(err)
+  db = database
+  app.listen(app.get('port'), () => {
+    console.log('listening on ' + app.get('port'))
+  })
+})
 
 app.get('/', (req, res) => {
   db.db('star-wars-quotes').collection('quotes').find().toArray((err, result) => {
